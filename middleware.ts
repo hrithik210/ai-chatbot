@@ -9,7 +9,6 @@ export function middleware(req : NextRequest){
         response.cookies.set("sessionId", crypto.randomUUID())
 
     }
-    console.log(response)
     return response
 
 }

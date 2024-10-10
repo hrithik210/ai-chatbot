@@ -22,6 +22,7 @@ export default async function Home({ params }: { params: ParamsProps }) {
     const sessionId  = (reco_url + "__" + sessionCookie).replace(/\//g, "")
     const initialMessages = await ragChat.history.getMessages({sessionId , amount: 10})
 
+
     if(!isAlreadyIndexed){
         await ragChat.context.add({
             type:"html",
