@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
+console.log("middleware.ts")
 export function middleware(req : NextRequest){
     const response  = NextResponse.next()
 
@@ -9,6 +9,7 @@ export function middleware(req : NextRequest){
         response.cookies.set("sessionId", crypto.randomUUID())
 
     }
+    console.log(response)
     return response
 
 }
