@@ -16,6 +16,7 @@ function reConstructUrl({ url }: { url: string[] }) {
 export default async function Home({ params }: { params: ParamsProps }) {
     const reco_url = reConstructUrl({url : params.url as string[]})
     const isAlreadyIndexed = await redis.sismember("indexed_url", reco_url)
+    const sessionId = "demo"
 
     if(!isAlreadyIndexed){
         await ragChat.context.add({
@@ -28,6 +29,6 @@ export default async function Home({ params }: { params: ParamsProps }) {
     }
     
     return (
-        <ChatWrapper />
+        <ChatWrapper sessionId= {sessionId} />
     )
 }
