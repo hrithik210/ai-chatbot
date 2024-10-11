@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -17,29 +17,31 @@ import {
 export default function LandingPage() {
   const [url, setUrl] = useState("");
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const [encodedUrl, setEncodedUrl] = useState("");
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Log the URL value to check if it's being set correctly
+
     console.log("URL entered:", url);
 
-    // Check if URL is not empty
     if (url.trim() === "") {
       alert("Please enter a valid URL.");
       return;
     }
 
     setIsRedirecting(true);
+    setEncodedUrl(encodeURIComponent(url));
+  }, [url]);
 
-    // Encode the URL and navigate to the dynamic route
-    const encodedUrl = encodeURIComponent(url);
-    console.log(`Redirecting to /${encodedUrl}`);
-    
-    // Simulate the redirection
-    router.push(`/${encodedUrl}`);
-  };
+  // useEffect to handle redirection when isRedirecting changes
+  useEffect(() => {
+    if (isRedirecting && encodedUrl) {
+      console.log(`Redirecting to /${encodedUrl}`);
+      router.push(`/${encodedUrl}`);
+    }
+  }, [isRedirecting, encodedUrl, router]);
+
 
   return (
     <div className="flex flex-col min-h-screen bg-zinc-800">
